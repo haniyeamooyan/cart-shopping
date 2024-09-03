@@ -1,22 +1,24 @@
 import { createContext, useState } from "react";
 import { getProductData } from "../data/item";
 
+export type ItemType = {id: string, quantity : number}
+
 export const CartContext =  createContext({
-    items: [],
-    getProductQuantity: () => {},
-    addItemToCart: () => {},
-    removeItemFromCart: () => {},
-    deleteFromCart: () => {},
+    items:[],
+    getProductQuantity: (_id: string) => 0,
+    addItemToCart: (_id: string) => {},
+    removeItemFromCart: (_id: string) => {},
+    deleteFromCart: (_id: string) => {},
     getTotalAmount: () => {}
 });
 
 //TODO: need to fix types
 
 export function CartProvider ({children}: any) {
-  const [cartProducts, setCartProducts] = useState<any>([])
+  const [cartProducts, setCartProducts] = useState<ItemType[]>([])
 
     function getProductQuantity (id: string) {
-      const quantity = cartProducts.find((item: any) => item?.id === id)?.quantity;
+      const quantity = cartProducts.find((item) => item.id === id)?.quantity;
       if(!quantity){
         return 0
       }
@@ -28,13 +30,13 @@ export function CartProvider ({children}: any) {
         if(quantity === 0 ) {
             setCartProducts([...cartProducts, {id: id, quantity: 1}])
         }else{
-            setCartProducts(cartProducts.map((item: any) => item?.id === id ? {...item, quantity: item.quantity+1}: item))
+            setCartProducts(cartProducts.map((item) => item.id === id ? {...item, quantity: item.quantity + 1}: item))
         }
     }
 
 
     function deleteFromCart (id: string) {
-        setCartProducts((cartProducts: any) => cartProducts.filter((item: any) => item?.id !== id))
+        setCartProducts((cartProducts) => cartProducts.filter((item) => item.id !== id))
     }
 
     function removeItemFromCart (id: string) {
@@ -44,14 +46,14 @@ export function CartProvider ({children}: any) {
             deleteFromCart(id)
         }else{
             setCartProducts(
-                cartProducts.map((item: any) => item.id === id ? {...item, quantity: item.quantity - 1} : item)
+                cartProducts.map((item) => item.id === id ? {...item, quantity: item.quantity - 1} : item)
             )
         }
     }
 
     function getTotalAmount (){
-        let totalAmount = 0;
-        cartProducts.map((item: any) => {
+        let totalAmount: number = 0;
+        cartProducts.map((item) => {
             const productData = getProductData(item.id)
 
             if(productData)  totalAmount += productData?.price * item.quantity

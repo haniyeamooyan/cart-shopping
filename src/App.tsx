@@ -3,10 +3,12 @@ import {Container} from "react-bootstrap";
 
 import Navbar from "./components/Navbar.tsx";
 import Shop from "./pages/Shop.tsx";
+import { CartProvider } from "./context/CartContext.tsx";
 
 function App() {
 
   return (
+    <CartProvider>
     <Container>
         <Navbar/>
         <Routes>
@@ -14,6 +16,7 @@ function App() {
 
         </Routes>
     </Container>
+    </CartProvider>
   )
 }
 
