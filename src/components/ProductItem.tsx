@@ -47,8 +47,8 @@ const ProductItem = ({product}: props) => {
                       </Col>
                      </Form>
                      <Button
-                          className="my-4 text-white"
-                          variant="Button Button-light"
+                          className="my-4"
+                          variant="light"
                           onClick={() => {
                             deleteFromCart(product.id)
                          }}

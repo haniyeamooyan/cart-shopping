@@ -1,12 +1,13 @@
-import { Navbar as NavbarBs, Button, Modal, ModalBody } from "react-bootstrap";
+import { Navbar as NavbarBs, Button, Modal } from "react-bootstrap";
 import { BsCart } from "react-icons/bs";
 import { useContext, useState } from "react";
 import { CartContext , ItemType} from "../context/CartContext";
+import CartProduct from "./CartProduct";
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const {items} = useContext(CartContext)
+  const {items, getTotalAmount} = useContext(CartContext)
 
   const productsCount = items.reduce((sum, product: ItemType) => sum + product.quantity , 0)
 
@@ -38,10 +39,31 @@ const Navbar = () => {
        contentClassName="card-bg"
        dir="rtl" 
        >
-        <Modal.Header closeButton closeVariant="white">
+        <Modal.Header closeVariant="white">
           <Modal.Title>سبد خرید</Modal.Title>
-          <Modal.Body>محصول</Modal.Body>
         </Modal.Header>
+        <Modal.Body>
+            {productsCount > 0 ? (
+              <>
+                {items.map((item: ItemType , index) => (
+                  <CartProduct key={index} id={item.id} quantity={item.quantity}/>
+                ))}
+                <h4>محموع قیمت : {getTotalAmount()}</h4>
+              </>
+            ): (
+              <div style={{minHeight:"5em"}}><h4>سبد خرید خالی است</h4></div>
+             
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button 
+            onClick={handleClose}
+            variant={"outline-secondary"}
+            className="text-white"
+            >
+              بستن
+            </Button>
+          </Modal.Footer>
        </Modal>
     </>
   );

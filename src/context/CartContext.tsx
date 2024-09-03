@@ -9,10 +9,8 @@ export const CartContext =  createContext({
     addItemToCart: (_id: string) => {},
     removeItemFromCart: (_id: string) => {},
     deleteFromCart: (_id: string) => {},
-    getTotalAmount: () => {}
+    getTotalAmount: () => 0
 });
-
-//TODO: need to fix types
 
 export function CartProvider ({children}: any) {
   const [cartProducts, setCartProducts] = useState<ItemType[]>([])
@@ -58,6 +56,7 @@ export function CartProvider ({children}: any) {
 
             if(productData)  totalAmount += productData?.price * item.quantity
         })
+        return totalAmount
     }
 
   const ContextValue = {
