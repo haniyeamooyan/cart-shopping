@@ -1,4 +1,4 @@
-import { Navbar as NavbarBs, Button, Modal } from "react-bootstrap";
+import { Navbar as NavbarBs, Button, Modal, ModalBody } from "react-bootstrap";
 import { BsCart } from "react-icons/bs";
 import { useState } from "react";
 
@@ -26,7 +26,17 @@ const Navbar = () => {
           </Button>
         </NavbarBs.Collapse>
       </NavbarBs>
-      <Modal show={showModal} onHide={handleClose}></Modal>
+      <Modal 
+      show={showModal} 
+      onHide={handleClose}
+       contentClassName="card-bg"
+       dir="rtl" 
+       >
+        <Modal.Header closeButton closeVariant="white">
+          <Modal.Title>سبد خرید</Modal.Title>
+          <Modal.Body>محصول</Modal.Body>
+        </Modal.Header>
+       </Modal>
     </>
   );
 };
