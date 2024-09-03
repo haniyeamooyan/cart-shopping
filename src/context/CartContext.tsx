@@ -1,15 +1,15 @@
 import { createContext, useState, ReactNode } from "react";
 import { getProductData } from "../data/item";
 
-export type ItemType = { id: string, quantity: number };
+export type ItemType = { id: string; quantity: number };
 
 interface CartContextType {
-  items: ItemType[],
-  getProductQuantity: (id: string) => number,
-  addItemToCart: (id: string) => void,
-  removeItemFromCart: (id: string) => void,
-  deleteFromCart: (id: string) => void,
-  getTotalAmount: () => number
+  items: ItemType[];
+  getProductQuantity: (id: string) => number;
+  addItemToCart: (id: string) => void;
+  removeItemFromCart: (id: string) => void;
+  deleteFromCart: (id: string) => void;
+  getTotalAmount: () => number;
 }
 
 export const CartContext = createContext<CartContextType>({
@@ -18,7 +18,7 @@ export const CartContext = createContext<CartContextType>({
   addItemToCart: (_id: string) => {},
   removeItemFromCart: (_id: string) => {},
   deleteFromCart: (_id: string) => {},
-  getTotalAmount: () => 0
+  getTotalAmount: () => 0,
 });
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -36,8 +36,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } else {
       setCartProducts(
         cartProducts.map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-        )
+          item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+        ),
       );
     }
   }
@@ -53,8 +53,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } else {
       setCartProducts(
         cartProducts.map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
-        )
+          item.id === id ? { ...item, quantity: item.quantity - 1 } : item,
+        ),
       );
     }
   }
@@ -80,8 +80,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <CartContext.Provider value={contextValue}>
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
   );
 }
